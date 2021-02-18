@@ -16,11 +16,15 @@ export class Board {
         {
             this.len = 4; 
             this.board = new Array(this.len * this.len).fill(boardstates.unvisited);
-            return; 
         }
-        this.board = board//[...board]; 
-        this.len = Math.sqrt(board.length);
-
+        else{
+            this.board = board//[...board]; 
+            this.len = Math.sqrt(board.length);
+        }
+        this.start = new State([0,0])
+        this.end = new State([this.len-1,this.len-1])
+        this.setStart(this.start)
+        this.setEnd(this.end)
     } 
     getChildren(state){
         const paths = this.getPaths(state); 
@@ -53,10 +57,18 @@ export class Board {
         return paths;
     }
     setEnd(state){
+        const [x,y] = this.end.position
+        this.board[x* this.len + y] = boardstates.unvisited; 
+
+        this.end = state
         const [xpos,ypos] = state.position;
         this.board[xpos * this.len + ypos] = boardstates.end; 
     }
     setStart(state){
+        const [x,y] = this.start.position
+        this.board[x* this.len + y] = boardstates.unvisited; 
+
+        this.start = state
         const [xpos,ypos] = state.position;
         this.board[xpos * this.len + ypos] = boardstates.start; 
     }
@@ -79,6 +91,13 @@ export class Board {
             const state = path[i]
             const [x,y] = state.position
             this.board[x * this.len + y] = boardstates.path
+        }
+    }
+    reset(){
+        for(let i = 0; i < this.board.length; i++){
+            if(this.board[i] === boardstates.wall) continue
+            if(this.board[i] !== boardstates.start && this.board[i] !== boardstates.end)
+                this.board[i] = boardstates.unvisited
         }
     }
 }

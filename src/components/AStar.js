@@ -8,13 +8,9 @@ export class AStar extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            board: new Board(new Array(5*5).fill(boardstates.unvisited)),
-            start: new State([0,0]),
-            end: new State([4,4]),
+            board: new Board(new Array(10*10).fill(boardstates.unvisited)),
         }
         console.log(this.state)
-        this.state.board.setStart(this.state.start)
-        this.state.board.setEnd(this.state.end)
         this.state.board.board[13] = boardstates.wall;
         this.visitedStates = []; 
         this.priorityQ = new PriorityQueue();
@@ -22,12 +18,13 @@ export class AStar extends React.Component{
 
         this.search = this.search.bind(this)
         this.handleSearch = this.handleSearch.bind(this)
+        this.changeStart = this.changeStart.bind(this)
     }
     distance(state){
-        return state.manhattanDistanceTo(this.state.end);
+        return state.manhattanDistanceTo(this.state.board.end);
     }
     search(){
-        const item = {state: this.state.start, path: []}
+        const item = {state: this.state.board.start, path: []}
         this.priorityQ.enqueue(0,item); 
         while(!this.priorityQ.isEmpty){
             const priorityQueueItem = this.priorityQ.dequeue().item;
@@ -48,13 +45,14 @@ export class AStar extends React.Component{
                     continue; 
                 // console.log("child: ", child);
                 const newItem = {state: child, path:newPath};
-                if(child.equal(this.state.end))
+                if(child.equal(this.state.board.end))
                     return([...newPath])
                 
                 const priority = this.distance(child); 
                 this.priorityQ.enqueue(priority, newItem)
             }
         }
+        return null
     }
     show(){
         for(let i = 0; i < this.visitedStates.length; i++)
@@ -75,6 +73,9 @@ export class AStar extends React.Component{
         return false; 
     }
     handleSearch(){
+        this.state.board.reset()
+        this.visitedStates = []
+        this.priorityQ = new PriorityQueue()
         const path = this.search()
         // this.state.board.setPath(path)
         this.show()
@@ -83,6 +84,11 @@ export class AStar extends React.Component{
             this.state.board.setPath(path)
             this.setState({})
         },this.visitedStates.length * 100)
+    }
+    changeStart([row,col]){
+        console.log("inside changestart")
+        this.state.board.setStart(new State([row,col]))
+        this.setState({})
     }
     render(){
         return <div>
