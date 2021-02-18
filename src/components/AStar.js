@@ -94,9 +94,6 @@ export class AStar extends React.Component{
         return <div>
             <h1>A-star</h1>
             <BoardView board={this.state.board.board} />
-            <div className="message">
-                <p>{this.message}</p>
-            </div>
             <button onClick = {this.handleSearch}> Search! </button> 
         </div> 
     }
