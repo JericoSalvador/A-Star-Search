@@ -3,6 +3,7 @@ import { State } from './State'
 import { PriorityQueue } from './PriorityQueue'
 import { BoardView } from '../views/BoardView'
 import { DrawBar } from './DrawButtonBar'
+import { Info } from './Info'
 import React from 'react'
 
 const SPEED_MS = 100 
@@ -168,6 +169,7 @@ export class AStar extends React.Component{
                 <div className="row">
                 <button className="col-lg-12 btn btn-success" onClick={this.handleSearch}>Search!</button>
                 </div>
+                <Info />
             </div> 
         );
     }
