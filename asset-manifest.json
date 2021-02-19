@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/A-Star-Search/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/A-Star-Search/static/js/main.db5f19d2.chunk.js",
+    "main.js.map": "/A-Star-Search/static/js/main.db5f19d2.chunk.js.map",
+    "runtime-main.js": "/A-Star-Search/static/js/runtime-main.5202be92.js",
+    "runtime-main.js.map": "/A-Star-Search/static/js/runtime-main.5202be92.js.map",
+    "static/css/2.658248ec.chunk.css": "/A-Star-Search/static/css/2.658248ec.chunk.css",
+    "static/js/2.1baa002f.chunk.js": "/A-Star-Search/static/js/2.1baa002f.chunk.js",
+    "static/js/2.1baa002f.chunk.js.map": "/A-Star-Search/static/js/2.1baa002f.chunk.js.map",
+    "static/js/3.dc3e2948.chunk.js": "/A-Star-Search/static/js/3.dc3e2948.chunk.js",
+    "static/js/3.dc3e2948.chunk.js.map": "/A-Star-Search/static/js/3.dc3e2948.chunk.js.map",
+    "index.html": "/A-Star-Search/index.html",
+    "static/css/2.658248ec.chunk.css.map": "/A-Star-Search/static/css/2.658248ec.chunk.css.map",
+    "static/css/main.6dea0f05.chunk.css.map": "/A-Star-Search/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.1baa002f.chunk.js.LICENSE.txt": "/A-Star-Search/static/js/2.1baa002f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5202be92.js",
+    "static/css/2.658248ec.chunk.css",
+    "static/js/2.1baa002f.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.db5f19d2.chunk.js"
+  ]
+}
