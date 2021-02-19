@@ -18,10 +18,10 @@ const styles = {
         backgroundColor: 'lightgray',
         border:"1px solid black",
     },
-    darkgreyBox:{
+    darkcyanBox:{
         width:SIZE, 
         height:SIZE,
-        backgroundColor: 'darkgrey',
+        backgroundColor: 'darkcyan',
         border:"1px solid black",
     },
     whiteBox:{
@@ -54,32 +54,47 @@ const BoxView = ({status, onMouseDown, onMouseUp, onMouseOver, onClick}) =>
         onClick={onClick}></div>
     }
     else if(status === boardstates.visited){
-        return <div style={styles.greyBox}></div>
+        return <div style={styles.greyBox}
+        onMouseDown={onMouseDown} 
+        onMouseUp={onMouseUp} 
+        onMouseOver={onMouseOver}
+        onClick={onClick}></div>
     }
     else if(status === boardstates.start){
         return <div style={styles.greenBox}></div>
     }
     else if(status === boardstates.wall){
-        return <div style = {styles.blackBox}></div>
+        return <div style = {styles.blackBox}
+        onMouseDown={onMouseDown} 
+        onMouseUp={onMouseUp} 
+        onMouseOver={onMouseOver}
+        onClick={onClick}></div>
     }
     else if(status === boardstates.end){
         return <div style={styles.blueBox}></div>
     }
     else if(status === boardstates.path){
-        return <div style={styles.greenBox}></div>
+        return <div style={styles.darkcyanBox}
+        onMouseDown={onMouseDown} 
+        onMouseUp={onMouseUp} 
+        onMouseOver={onMouseOver}
+        onClick={onClick}></div>
     }
 }
 
 export const BoardView = ({board, onMouseDown, onMouseUp, onMouseOver,onClick}) => {
     const len = Math.sqrt(board.length)
     return (
-        <div style={{display:"flex", justifyContent:"center",alignItems:"center"}}>
+        <div style={{display:"flex", justifyContent:"center",alignItems:"center"}} 
+        onMouseUp={onMouseUp} onMouseDown={onMouseDown}
+        onMouseLeave={onMouseUp}
+        >
             <div>
             {range(len).map((x)=><div style={{display:'flex'}}>
                 {range(len).map((y) => <BoxView status = {board[x*len + y]} 
                 onMouseOver={() => onMouseOver([x,y])}
-                onMouseUp={onMouseUp} onMouseDown={onMouseDown}
-                onClick={()=>onClick([x,y])}/>)}
+                onMouseDown={() => onClick([x,y])}
+                />)}
             </div>)}
             </div>
         </div>

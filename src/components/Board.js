@@ -21,8 +21,8 @@ export class Board {
             this.board = board//[...board]; 
             this.len = Math.sqrt(board.length);
         }
-        this.start = new State([0,0])
-        this.end = new State([this.len-1,this.len-1])
+        this.start = new State([1,1])
+    this.end = new State([this.len-2,this.len-2])
         this.setStart(this.start)
         this.setEnd(this.end)
     } 
@@ -89,15 +89,25 @@ export class Board {
     setPath(path){
         for(let i = 0; i < path.length; i++){
             const state = path[i]
+            if(state.equal(this.start)) continue
+
             const [x,y] = state.position
-            this.board[x * this.len + y] = boardstates.path
+            const pos = x * this.len + y
+            this.board[pos] = boardstates.path
         }
     }
     setWall(state){
         const [x,y] = state.position
         const pos = x*this.len + y
-        if (this.board[pos] === boardstates.unvisited)
+
+        if (this.board[pos] !== boardstates.wall)
         this.board[pos] = boardstates.wall
+    }
+    setUnvisited(state){
+        const [x,y] = state.position
+        const pos = x*this.len + y
+        // if (this.board[pos] === boardstates.wall)
+        this.board[pos] = boardstates.unvisited
     }
     reset(){
         const newBoard = new Array(this.len * this.len).fill(boardstates.unvisited)

@@ -2,9 +2,10 @@ import { Board, boardstates } from './Board'
 import { State } from './State'
 import { PriorityQueue } from './PriorityQueue'
 import { BoardView } from '../views/BoardView'
+import { DrawBar } from './ButtonBar'
 import React from 'react'
 
-const SPEED_MS = 50 
+const SPEED_MS = 100 
 export class AStar extends React.Component{
     constructor(props) {
         super(props);
@@ -16,12 +17,6 @@ export class AStar extends React.Component{
             drawStatus: false,
         }
 
-        // for(let i = 1;i<this.state.board.len;i++)
-        // {
-        //     this.state.board.setWall([i,5])
-        // }
-        this.state.board.setStart(new State([9,4]))
-
         this.visitedStates = []; 
         this.priorityQ = new PriorityQueue();
         this.message = "Hello World";
@@ -30,6 +25,8 @@ export class AStar extends React.Component{
         this.handleSearch = this.handleSearch.bind(this)
         this.changeStart = this.changeStart.bind(this)
         this.changeEnd = this.changeEnd.bind(this)
+        this.changeBlock = this.changeBlock.bind(this)
+        this.erase = this.erase.bind(this)
         this.addWall = this.addWall.bind(this)
 
         this.setDrawStatusFalse = this.setDrawStatusFalse.bind(this)
@@ -40,6 +37,7 @@ export class AStar extends React.Component{
             "wall": this.addWall,
             "start": this.changeStart,
             "end": this.changeEnd,
+            "erase":this.erase,
         }
     }
     setDrawStatusTrue(){
@@ -81,8 +79,6 @@ export class AStar extends React.Component{
                 let child = children[i];
                 if(this.visited(child))
                     continue; 
-                if(this.inFringe(child))
-                    continue;
 
                 const newItem = {state: child, path:newPath, cost:priorityQueueItem.cost};
                 let priority = this.distance(child); 
@@ -148,13 +144,31 @@ export class AStar extends React.Component{
         this.state.board.setWall(new State([row,col]))
         this.setState({})
     }
+    erase([row,col]){
+        this.state.board.setUnvisited(new State([row,col]))
+        this.setState({})
+    }
+    changeBlock(value){
+        this.setState({block:value})
+    }
     render(){
-        return <div>
-            <h1>A-star</h1>
-            <BoardView board={this.state.board.board} onMouseDown={this.setDrawStatusTrue} 
-                       onMouseUp={this.setDrawStatusFalse} onMouseOver={this.draw}
-                       onClick={this.functions[this.state.block]}/>
-            <button onClick = {this.handleSearch}> Search! </button> 
-        </div> 
+        const buttons = {
+            "Move Start":()=>this.changeBlock("start"),
+            "Move Goal":()=>this.changeBlock("end"),
+            "Draw Wall" :()=>this.changeBlock("wall"),
+            "Erase":()=>this.changeBlock("erase"),
+        }
+        return(
+            <div>
+                <h1>A-star</h1>
+                <BoardView board={this.state.board.board} onMouseDown={this.setDrawStatusTrue} 
+                           onMouseUp={this.setDrawStatusFalse} onMouseOver={this.draw}
+                           onClick={this.functions[this.state.block]}/>
+                <DrawBar buttons={buttons}/>
+                <div className="row">
+                <button className="col-lg-12 btn btn-success" onClick={this.handleSearch}>Search!</button>
+                </div>
+            </div> 
+        );
     }
 }
