@@ -2,7 +2,7 @@ import { Board, boardstates } from './Board'
 import { State } from './State'
 import { PriorityQueue } from './PriorityQueue'
 import { BoardView } from '../views/BoardView'
-import { DrawBar } from './ButtonBar'
+import { DrawBar } from './DrawButtonBar'
 import React from 'react'
 
 const SPEED_MS = 100 
