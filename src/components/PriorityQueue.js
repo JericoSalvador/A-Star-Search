@@ -54,5 +54,4 @@ export class PriorityQueue {
     get print(){
         console.log(this.items)
     }
-
 }

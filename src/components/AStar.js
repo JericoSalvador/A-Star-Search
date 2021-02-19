@@ -11,7 +11,13 @@ export class AStar extends React.Component{
             board: new Board(new Array(10*10).fill(boardstates.unvisited)),
         }
         console.log(this.state)
-        this.state.board.board[13] = boardstates.wall;
+
+        for(let i = 1;i<this.state.board.len-1;i++)
+        {
+            this.state.board.setWall([i,5])
+        }
+        this.state.board.setStart(new State([9,4]))
+
         this.visitedStates = []; 
         this.priorityQ = new PriorityQueue();
         this.message = "Hello World";
@@ -21,10 +27,10 @@ export class AStar extends React.Component{
         this.changeStart = this.changeStart.bind(this)
     }
     distance(state){
-        return state.manhattanDistanceTo(this.state.board.end);
+        return state.distanceTo(this.state.board.end);
     }
     search(){
-        const item = {state: this.state.board.start, path: []}
+        const item = {state: this.state.board.start, path: [],cost: 0}
         this.priorityQ.enqueue(0,item); 
         while(!this.priorityQ.isEmpty){
             const priorityQueueItem = this.priorityQ.dequeue().item;
@@ -32,29 +38,35 @@ export class AStar extends React.Component{
             const currentPath = priorityQueueItem.path;
             // console.log(currentState);
             // console.log(currentPath);
+            if(!this.visited(currentState))
             this.visitedStates.push(currentState);
             // this.state.board.setVisit(currentState);
-
+            
+            if(currentState.equal(this.state.board.end))
+                return([...currentPath])
+                
             const newPath = [...currentPath, currentState]
 
-            const children = this.state.board.getChildren(currentState); 
+            let children = this.state.board.getChildren(currentState); 
             // console.log("children: ", children);
             for(let i = 0; i < children.length; i++){
-                const child = children[i];
+                let child = children[i];
                 if(this.visited(child))
                     continue; 
+                if(this.inFringe(child))
+                    continue;
+                this.visitedStates.push(child)
                 // console.log("child: ", child);
-                const newItem = {state: child, path:newPath};
-                if(child.equal(this.state.board.end))
-                    return([...newPath])
-                
-                const priority = this.distance(child); 
+                const newItem = {state: child, path:newPath, cost:priorityQueueItem.cost };
+                let priority = this.distance(child); 
+                priority = priority + priorityQueueItem.cost 
                 this.priorityQ.enqueue(priority, newItem)
             }
         }
         return null
     }
     show(){
+        console.log(this.visitedStates)
         for(let i = 0; i < this.visitedStates.length; i++)
         {
             const state = this.visitedStates[i]
@@ -71,6 +83,15 @@ export class AStar extends React.Component{
                 return true;
         }
         return false; 
+    }
+    inFringe(state){
+        for(let i = 0; i < this.priorityQ.items.length; i++)
+        {
+            let currentstate = this.priorityQ.items[i].item.state
+            if (currentstate.equal(state))
+                return true
+        }
+        return false
     }
     handleSearch(){
         this.state.board.reset()

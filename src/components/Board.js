@@ -93,6 +93,9 @@ export class Board {
             this.board[x * this.len + y] = boardstates.path
         }
     }
+    setWall([x,y]){
+        this.board[x * this.len + y] = boardstates.wall
+    }
     reset(){
         for(let i = 0; i < this.board.length; i++){
             if(this.board[i] === boardstates.wall) continue

@@ -22,4 +22,11 @@ export class State {
 
         return Math.abs(x - xx) + Math.abs(y - yy)
     }
+    distanceTo(other){
+        const [x,y] = this.position;
+        const [xx,yy] = other.position; 
+
+        return Math.sqrt((x-xx)*(x - xx) + (y-yy)*(y - yy))
+    }
+
 }
