@@ -85,7 +85,6 @@ export class AStar extends React.Component{
                 priority = priority + priorityQueueItem.cost 
                 this.priorityQ.enqueue(priority, newItem)
             }
-            console.log(this.priorityQ)
         }
         return null
     }
