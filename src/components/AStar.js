@@ -80,11 +80,12 @@ export class AStar extends React.Component{
                 if(this.visited(child))
                     continue; 
 
-                const newItem = {state: child, path:newPath, cost:priorityQueueItem.cost};
+                const newItem = {state: child, path:newPath, cost:priorityQueueItem.cost + 1};
                 let priority = this.distance(child); 
                 priority = priority + priorityQueueItem.cost 
                 this.priorityQ.enqueue(priority, newItem)
             }
+            console.log(this.priorityQ)
         }
         return null
     }
