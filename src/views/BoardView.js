@@ -44,10 +44,14 @@ const styles = {
     }
     
 }
-const BoxView = ({status}) =>
+const BoxView = ({status, onMouseDown, onMouseUp, onMouseOver, onClick}) =>
 {
     if (status === boardstates.unvisited){
-        return <div style={styles.whiteBox}></div>
+        return <div style={styles.whiteBox} 
+        onMouseDown={onMouseDown} 
+        onMouseUp={onMouseUp} 
+        onMouseOver={onMouseOver}
+        onClick={onClick}></div>
     }
     else if(status === boardstates.visited){
         return <div style={styles.greyBox}></div>
@@ -66,13 +70,16 @@ const BoxView = ({status}) =>
     }
 }
 
-export const BoardView = ({board}) => {
+export const BoardView = ({board, onMouseDown, onMouseUp, onMouseOver,onClick}) => {
     const len = Math.sqrt(board.length)
     return (
         <div style={{display:"flex", justifyContent:"center",alignItems:"center"}}>
             <div>
             {range(len).map((x)=><div style={{display:'flex'}}>
-                {range(len).map((y) => <BoxView status = {board[x*len + y]} />)}
+                {range(len).map((y) => <BoxView status = {board[x*len + y]} 
+                onMouseOver={() => onMouseOver([x,y])}
+                onMouseUp={onMouseUp} onMouseDown={onMouseDown}
+                onClick={()=>onClick([x,y])}/>)}
             </div>)}
             </div>
         </div>

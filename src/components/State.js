@@ -20,9 +20,10 @@ export class State {
         const [x,y] = this.position;
         const [xx,yy] = other.position; 
 
-        return Math.abs(x - xx) + Math.abs(y - yy)
+        const distance = Math.abs(x - xx) + Math.abs(y - yy)
+        return distance; 
     }
-    distanceTo(other){
+    euclideanDistanceTo(other){
         const [x,y] = this.position;
         const [xx,yy] = other.position; 
 
